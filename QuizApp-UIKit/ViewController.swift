@@ -51,21 +51,6 @@ class ViewController: UIViewController {
         answer2Button.setTitle(currentQuestion.answer2, for: .normal)
         answer3Button.setTitle(currentQuestion.answer3, for: .normal)
     }
-
-    @IBAction func answer1ButtonTapped(_ sender: Any) {
-        let currentQuestion = questions[currentQuestionIndex]
-        if currentQuestion.correctAnswer == 1 {
-            print("Answer is correct")
-            showAlert(title: "Correct", message: "You got it right")
-            
-            score += 1
-            scoreLabel.text = "Score :\(score)"
-        } else {
-            print("Answer is incorrect")
-            showAlert(title: "Incorrect", message: "You got it wrong")
-        }
-        
-    }
     
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -76,33 +61,44 @@ class ViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    @IBAction func answer2ButtonTapped(_ sender: Any) {
+    func check(selectedAnswer answer: Int) {
         let currentQuestion = questions[currentQuestionIndex]
-        if currentQuestion.correctAnswer == 2 {
+        var alertTitle = ""
+        var alertMessage = ""
+        
+        if currentQuestion.correctAnswer == answer {
             print("Answer is correct")
-            showAlert(title: "Correct", message: "You got it right")
-            
             score += 1
             scoreLabel.text = "Score :\(score)"
+            alertTitle = "Correct"
+            alertMessage = "You got it right"
+
         } else {
             print("Answer is incorrect")
-            showAlert(title: "Incorrect", message: "You got it wrong")
+            alertTitle = "Incorrect"
+            alertMessage = "You got it wrong"
+            
         }
+        
+        //if last question
+        if currentQuestionIndex == questions.count - 1 {
+            alertTitle = "End of Quiz"
+            alertMessage = "Your final score is \(score)/ \(questions.count)"
+        }
+
+        showAlert(title: alertTitle, message: alertMessage)
     }
+
     
-    
-    @IBAction func answer3ButtonTapped(_ sender: Any) {
-        let currentQuestion = questions[currentQuestionIndex]
-        if currentQuestion.correctAnswer == 3 {
-            print("Answer is correct")
-            showAlert(title: "Correct", message: "You got it right")
-            
-            score += 1
-            scoreLabel.text = "Score :\(score)"
-        } else {
-            print("Answer is incorrect")
-            showAlert(title: "Incorrect", message: "You got it wrong")
-        }
+    @IBAction func answerButtonTapped(_ sender: UIButton) {
+        check(selectedAnswer: sender.tag)
+        /*if sender.tag == 1 {
+            check(selectedAnswer: 1)
+        } else if sender.tag == 2 {
+            check(selectedAnswer: 2)
+        } else if sender.tag == 3 {
+            check(selectedAnswer: 3)
+        }*/
         
     }
 }
