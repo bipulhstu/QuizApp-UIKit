@@ -22,12 +22,62 @@ class ViewController: UIViewController {
     ]
     var score = 0
     var currentQuestionIndex = 0
+    var sizeClass: (UIUserInterfaceSizeClass, UIUserInterfaceSizeClass) {
+        return (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         setupQuestion()
+        style()
+    }
+    
+    func style() {
+        switch sizeClass {
+            //iPhone landscape (small device & big device)
+        case (UIUserInterfaceSizeClass.compact, UIUserInterfaceSizeClass.compact),
+            (UIUserInterfaceSizeClass.regular, UIUserInterfaceSizeClass.compact):
+            scoreLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+            
+        
+        //iPhone portrait
+        case (.compact, .regular):
+            scoreLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+            
+        //iPad
+        case (.regular, .regular):
+            scoreLabel.font = UIFont.systemFont(ofSize: 30, weight: .regular)
+            
+        default:
+            scoreLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+            
+        }
+        
+        [answer1Button, answer2Button, answer3Button].forEach{ button in
+            switch sizeClass {
+                //iPhone landscape (small device & big device)
+            case (.compact, .compact),(.regular, .compact):
+                button?.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+                
+            //iPhone portrait
+            case (.compact, .regular):
+                button?.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+                
+            //iPad
+            case (.regular, .regular):
+                button?.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .semibold)
+                
+            default:
+                button?.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+                
+            }
+            
+            button?.layer.cornerRadius = 6
+            
+        }
+        
     }
     
     func nextQuestion() {
